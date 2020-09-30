@@ -9,16 +9,16 @@ public class School {
     private String address;
     private int postcode;
     private int phonenum;
-    private Admin admin;
+    private ArrayList<Student> students = new ArrayList<Student>();
+    private ArrayList<Teacher> teachers = new ArrayList<Teacher>();
     
     
-    public School(String sid, String sname, String address, int postcode, int phonenum, Admin admin){
+    public School(String sid, String sname, String address, int postcode, int phonenum){
         this.sid = sid;
         this.sname = sname;
         this.address = address;
         this.postcode = postcode;
         this.phonenum = phonenum;
-        this.admin = admin;
     }
 
     public String getSid() {
@@ -41,9 +41,6 @@ public class School {
         return phonenum;
     }
 
-    public Admin getAdmin() {
-        return admin;
-    }
 
     public void setSname(String sname) {
         this.sname = sname;
@@ -61,8 +58,21 @@ public class School {
         this.phonenum = phonenum;
     }
 
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
+
+    public ArrayList<Student> getStudents() {
+        return students;
+    }
+
+    public ArrayList<Teacher> getTeachers() {
+        return teachers;
+    }
+
+    public void setStudents(ArrayList<Student> students) {
+        this.students = students;
+    }
+
+    public void setTeachers(ArrayList<Teacher> teachers) {
+        this.teachers = teachers;
     }
     
     
@@ -70,7 +80,7 @@ public class School {
     
     @Override
     public String toString( ) {
-        String result = "School ID \t"+ sid + "\nSchool Name: \t" + sname+ "\nAddress \t"+ address+"\nPostcode \t"+ postcode+"\nAdmin information:\n"+admin+"\n";
+        String result = "School ID \t"+ sid + "\nSchool Name: \t" + sname+ "\nAddress \t"+ address+"\nPostcode \t"+ postcode+"\n";
         return result;
     }
 }

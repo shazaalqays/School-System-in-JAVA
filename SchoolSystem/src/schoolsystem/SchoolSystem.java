@@ -4,44 +4,60 @@ package schoolsystem;
 import java.util.ArrayList;
 import java.util.Scanner;
 import schoolsystem.Student.blood;
-import schoolsystem.Teacher.LessonType;
+import schoolsystem.LessonType;
 import schoolsystem.Teacher.bloodT;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SchoolSystem {
-
+    private static boolean isAvailableForLessonType(String lessonType){
+        String data= "PHYSICS physics MATHEMATICS mathematics math MATH HISTORY history";
+        Pattern pattern = Pattern.compile(lessonType, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(data);
+        
+       if(matcher.find()){
+           return true;
+       }
+       else{
+           return false;
+       }  
+    }
     
     public static void main(String[] args) {
         Admin a = new Admin("1","Shaza","shazaalqays","12");
-        School sch = new School("1","SCHOOL","Beylikduzu",123,053,a);
+        School sch = new School("1","SCHOOL","Beylikduzu",123,053);
         System.out.println(sch);
         System.out.println();
         ArrayList<Lessons> lessonlist = new ArrayList<Lessons>();
         ArrayList<Student> studentlist = new ArrayList<Student>();
         ArrayList<Teacher> teacherlist = new ArrayList<Teacher>();
-        ArrayList<String> tIDs = new ArrayList<String>();
-        ArrayList<String> tusername = new ArrayList<String>();
-        ArrayList<String> sIDs = new ArrayList<String>();
-        ArrayList<String> susername = new ArrayList<String>();
+        ArrayList<String> IDs = new ArrayList<String>();
+        ArrayList<String> usernames = new ArrayList<String>();
+        usernames.add(a.getUsername());
+        IDs.add(a.getId());
+//        ArrayList<String> sIDs = new ArrayList<String>();
+//        ArrayList<String> susername = new ArrayList<String>();
         ArrayList<String> lIDs = new ArrayList<String>();
         Teacher t = null;
         Student s = null;
         Lessons l = null;
         Lessons l1 = null;
-        Student s1 = new Student("1","shaza","qays","123",blood.AB);
-        Student s2 = new Student("3","shaza","qays","123",blood.AB);
-        Student s3 = new Student("2","shaza","qays","123",blood.AB);
+        Student s1 = new Student("shaza","qays","123",blood.AB);
+        Student s2 = new Student("shaza","qays","123",blood.AB);
+        Student s3 = new Student("shaza","qays","123",blood.AB);
         studentlist.add(s1);
         studentlist.add(s2);
         studentlist.add(s3);
         
-        Teacher t1 = new Teacher("1","shaza", "shaza", "123", bloodT.A_NEG, LessonType.CHEMSTRY);
-        teacherlist.add(t1);
-        Teacher t2 = new Teacher("1","shaza", "qays", "123", bloodT.A_NEG, LessonType.CHEMSTRY);
-        teacherlist.add(t2);
-        Teacher t3 = new Teacher("2","shaza", "shaza", "123", bloodT.A_NEG, LessonType.CHEMSTRY);
-        teacherlist.add(t3);
         
+        
+        Teacher t1 = new Teacher("shaza", "shaza", "123", bloodT.A_NEG, LessonType.CHEMSTRY);
+        teacherlist.add(t1);
+        Teacher t2 = new Teacher("shaza", "qays", "123", bloodT.A_NEG, LessonType.CHEMSTRY);
+        teacherlist.add(t2);
+        Teacher t3 = new Teacher("shaza", "shaza", "123", bloodT.A_NEG, LessonType.CHEMSTRY);
+        teacherlist.add(t3);
+//        
         Lessons lesson1 = a.addLesson("1","Geography",10);
         lessonlist.add(lesson1);
         Lessons lesson2 = a.addLesson("2","Mathematic",10);
@@ -76,11 +92,19 @@ public class SchoolSystem {
         String spass = null;
         String lID = null;
         while(i == 0){
+//            for(String u : usernames){
             System.out.println("Enter username: ");
             String username = admin.nextLine();
             System.out.println("Enter  password: ");
             String password = admin.nextLine();
-            if(username.equals(a.getUsername())&& password.equals(a.getPassword())){
+//            if(usernames.isEmpty()){
+//                System.out.println("No registers");
+//            }
+//            else{
+                
+            
+            
+            if(a.getUsername().equals(username)&& password.equals(a.getPassword())){
                 m = 0;
                 System.out.println("You logged in as an admin");
                 System.out.println();
@@ -88,35 +112,38 @@ public class SchoolSystem {
                 System.out.println("Press 1 to add a teacher: ");
                 System.out.println("Press 2 to add a student: ");
                 System.out.println("Press 3 to add a lesson: ");
-                System.out.println("Press 4 to print teachers list: ");
-                System.out.println("Press 5 to exit: ");
+                System.out.println("Press 4 to remove a teacher: ");
+                System.out.println("Press 5 to print teachers list: ");
+                System.out.println("Press 6 to print students list: ");
+                System.out.println("Press 7 to print IDs list: ");
+                System.out.println("Press 8 to exit: ");
                  j = 0;
                  k = 0;
                 String choice = admin.nextLine();
                 switch (choice) {
                     case "1":
-                        while(j == 0){
-                            System.out.println("Enter teacher ID: ");
-                            tID = admin.nextLine();
-                            if(tIDs.contains(tID)){
-                                System.out.println(tID.contains(tID));
-                                System.out.println("This ID is already taken. Try again");
-                            }
-                            else{
-                                tIDs.add(tID);
-                                j = 1;
-                            }
-                        }
+//                        while(j == 0){
+//                            System.out.println("Enter teacher ID: ");
+//                            tID = admin.nextLine();
+//                            if(tIDs.contains(tID)){
+//                                System.out.println(tID.contains(tID));
+//                                System.out.println("This ID is already taken. Try again");
+//                            }
+//                            else{
+//                                tIDs.add(tID);
+//                                j = 1;
+//                            }
+//                        }
                         System.out.println("Enter teacher name: ");
                         tname = admin.nextLine();
                         while(k == 0){
                             System.out.println("Enter teacher username: ");
                             tuser = admin.nextLine();
-                            if(tusername.contains(tuser) || susername.contains(tuser)){
+                            if(usernames.contains(tuser) || usernames.contains(tuser)){
                                 System.out.println("This username is already taken. Try again");
                             }
                             else{
-                                tusername.add(tuser);
+                                usernames.add(tuser);
                                 k = 1;
                             }
                         }
@@ -127,9 +154,7 @@ public class SchoolSystem {
                         bloodT ttb = bloodT.valueOf(tb);
                         System.out.println("Enter teacher lesson type: ");
                         String lt = admin.nextLine();
-                        LessonType llt = LessonType.valueOf(lt);
-                        llt.getType();
-                        t = a.addTeacher(tID, tname, tuser, tpass,ttb, llt);
+                        t = a.addTeacher(tname, tuser, tpass,ttb, LessonType.valueOf(lt));
                         if(teacherlist.contains(t)){
                             System.out.println("This teacher is already in the list");
                         }
@@ -139,28 +164,28 @@ public class SchoolSystem {
                         break;
                         
                     case "2":
-                        while(j == 0){
-                            System.out.println("Enter student ID: ");
-                            sID = admin.nextLine();
-                            if(sIDs.contains(sID) || tIDs.contains(sID)){
-                                System.out.println(sID.contains(sID));
-                                System.out.println("This ID is already taken. Try again");
-                            }
-                            else{
-                                sIDs.add(sID);
-                                j = 1;
-                            }
-                        }
+//                        while(j == 0){
+//                            System.out.println("Enter student ID: ");
+//                            sID = admin.nextLine();
+//                            if(sIDs.contains(sID) || tIDs.contains(sID)){
+//                                System.out.println(sID.contains(sID));
+//                                System.out.println("This ID is already taken. Try again");
+//                            }
+//                            else{
+//                                sIDs.add(sID);
+//                                j = 1;
+//                            }
+//                        }
                         System.out.println("Enter student name: ");
                         sname = admin.nextLine();
                         while(k == 0){
                             System.out.println("Enter student username: ");
                             suser = admin.nextLine();
-                            if(tusername.contains(suser) || susername.contains(suser)){
+                            if(usernames.contains(suser) || usernames.contains(suser)){
                                 System.out.println("This username is already taken. Try again");
                             }
                             else{
-                                tusername.add(suser);
+                                usernames.add(suser);
                                 k = 1;
                             }
                         }
@@ -169,7 +194,7 @@ public class SchoolSystem {
                         System.out.println("Enter teacher blood type: (AB, A_NEG, A_POS, B_NEG, B_POS, O_NEG, O_POS)");
                         String sb = admin.nextLine();
                         blood ssb = blood.valueOf(sb);
-                        s = a.addStudent(sID, sname, suser, spass,ssb);
+                        s = a.addStudent(sname, suser, spass,ssb);
                         if(studentlist.contains(s)){
                             System.out.println("This student is already in the list");
                         }
@@ -204,9 +229,26 @@ public class SchoolSystem {
                         }
                         break;
                     case "4":
-                        a.printTeacherslist();
+                        System.out.println("Enter a teacher name to remove");
+                        String tename = admin.nextLine();
+//                        a.removeTeacher(tename);
+                        for(Teacher e : teacherlist){
+                            if(e.getName().equals(tename)){
+                                a.removeTeacher(e);
+                            }
+                        }
+                        
                         break;
                     case "5":
+                        a.printTeacherslist();
+                        break;
+                    case "6":
+                        a.printStudentslist();
+                        break;
+                    case "7":
+                        a.printIDlist();
+                        break;
+                    case "8":
                         m = 1;
                         break;
                     default:
@@ -215,7 +257,7 @@ public class SchoolSystem {
                 }
 //        i = 1;
             }
-            else if(suser.contains(username)){
+            else if(usernames.contains(username) && usernames.equals(studentlist.contains(s1.getSusername()))){
                 
             
 //            else if (s1.getSusername().equals(username) && s1.getSpassword().equals(password)){
@@ -239,7 +281,7 @@ public class SchoolSystem {
                                     String lesname = admin.nextLine();
                                     for(Lessons le: lessonlist){
                                         if(le.getName().equals(lesname)){
-                                            s.addLesson(le, lessonlist);
+                                            le.addLesson(le);
                                         }
                                     }
                                     break;
@@ -250,7 +292,7 @@ public class SchoolSystem {
                                     String rlesname = admin.nextLine();
                                     for(Lessons le: lessonlist){
                                         if(le.getName().equals(rlesname)){
-                                            s.removeLesson(le);
+                                            le.removeLesson(le);
                                         }
                                     }
                                     break;
@@ -278,7 +320,7 @@ public class SchoolSystem {
 //                    }
 //                }   
             }
-            else if (tuser.contains(username)){
+            else if (usernames.contains(username) && teacherlist.contains(username)){
 //            else if (t1.getUsername().equals(username) && t1.getPassword().equals(password)){
                 m = 0;
                 System.out.println("You signed in as a teacher");
@@ -302,9 +344,9 @@ public class SchoolSystem {
                                 }
                             }
                             System.out.println("Choose student to add: ");
-                            String studentID = admin.nextLine();
+                            String studentName = admin.nextLine();
                             for(Student std: studentlist){
-                                if(std.getSid().equals(studentID)){
+                                if(std.getSname().equals(studentName)){
                                     t.addStudent(l1,lessonlist,std);
                                }
                                 System.out.println("There is no such a student in the list");
@@ -321,10 +363,10 @@ public class SchoolSystem {
                                 }
                             }
                             System.out.println("Choose lesson to remove: ");
-                            String rstudentid = admin.nextLine();
+                            String rstudentName = admin.nextLine();
                             System.out.println();
                             for(Student std: studentlist){
-                                if(std.getSid().equals(rstudentid)){
+                                if(std.getSname().equals(rstudentName)){
                                     t.removeStudent(l1,lessonlist, std);
                                 }
                             }
@@ -350,18 +392,21 @@ public class SchoolSystem {
                     }
                 }
             }
+            
             else{
                 System.out.println("You entered wrong information !!");
-                System.out.println("If you want to exit press 0 else press any number: ");
+                System.out.println("If you want to exit press 0 else press any key: ");
                 String ch = admin.nextLine();
                 switch(ch){
                     case"0":
                         i = 1;
                         break;
                     default:
-                        System.out.println("Try again with other information. ");
+                        System.out.println();
                 }
             }
+//            }
+//            }
         }
     }
     

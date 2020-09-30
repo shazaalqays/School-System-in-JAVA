@@ -2,10 +2,9 @@
 package schoolsystem;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 class Teacher {
-    private String id;
+    private int id;
     private String name;
     private ArrayList<Lessons> lessons = new ArrayList<Lessons>();
     private ArrayList<Student> students = new ArrayList<Student>();
@@ -16,40 +15,17 @@ class Teacher {
     enum bloodT {
         A_NEG , A_POS , B_NEG , B_POS, O_NEG, O_POS , AB
     }
-    public enum LessonType {
-        MATHEMATIC("Mathematic"),MATH("MATHEMATIC"),math("mathematic"),
-        GEOGRAPHY("Geography"),GEO("GEOGRAPHY"),geography("geography"),
-        TURKISH("Turkish"),TURK("TURKISH"),turkish("turkish"),
-        ENGLISH("English"),ENG("ENGLISH"),english("english"),
-        SCIENCE("Science"),SCI("SCIENCE"),science("science"),
-        PHYSICS("Physics"),PHY("PHYSICS"),physics("physics"),
-        CHEMSTRY("Chemstry"),CHEM("CHEMSTRY"),chemstry("chemstry"),
-        HISTORY("History"),HIS("HISTORY"),history("history")
-        ;
-        
-        
-
-        private String type;
-
-        LessonType(String type) {
-            this.type = type;
-        }
-
-        public String getType() {
-            return type;
-        }
-    }
 
     
-    public Teacher(String id, String name, String username, String password,bloodT bl, LessonType lt){
-        this.id = id;
+    public Teacher(String name, String username, String password,bloodT bl, LessonType lt){
+//        this.id = id;
         this.name = name;
         this.username = username;
         this.password = password;
         this.lt = lt;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -73,7 +49,7 @@ class Teacher {
         return password;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -154,12 +130,12 @@ class Teacher {
 //        System.out.println(lessons);
         students = getStudents();
         if(les.contains(lesson)){
-            if(lesson.getLessonlist().isEmpty() & students.isEmpty()){
+            if(students.isEmpty()){
                 System.out.println("There is no student");
             }
-            else if(lesson.getStudentslist().contains(student) && students.contains(student)){
+            else if(students.contains(student)){
                 System.out.println("Student removed:  \n"+ student);
-                lesson.studentslist.remove(student);
+//                lesson.remove(student);
                 students.remove(student);
                 
             }
@@ -180,16 +156,16 @@ class Teacher {
         students = getStudents();
         ArrayList<Lessons> lessons = arrle;
         if(lessons.contains(les)){
-            if(les.getLessonlist().isEmpty() & students.isEmpty()){
-                les.studentslist.add(student);
+            if(students.isEmpty()){
+//                les.studentslist.add(student);
                 students.add(student);
                 System.out.println("Student added: \n"+ student);
             }
-            else if(les.getStudentslist().contains(student) && students.contains(student)){
+            else if( students.contains(student)){
                 System.out.println("Student is aleaady in the list ");
             }
             else{
-                les.studentslist.add(student);
+//                les.studentslist.add(student);
                 students.add(student);
                 System.out.println("Student added: \n"+ student);
             }
@@ -202,7 +178,7 @@ class Teacher {
     }
     @Override
     public String toString( ) {
-        String result = "Teacher ID: \t"+ id + "\nName: \t" + name+ "\nUsername: \t"+ username+"\nPassword: \t"+ password+"\nBlood type: \t"+bl+"\n";
+        String result = "Teacher ID: \t"+ id + "\nName: \t" + name+ "\nUsername: \t"+ username+"\nPassword: \t"+ password+"\nBlood type: \t"+bl+"\nLesson Type: \t"+lt+"\n";
         return result;
     }
     

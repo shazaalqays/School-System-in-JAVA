@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.function.Consumer;
 
 class Student{
-    private String sid;
+    private int sid;
     private String sname;
     private String susername;
     private String spassword;
@@ -31,9 +31,8 @@ class Student{
         A_NEG, A_POS , B_NEG , B_POS, O_NEG, O_POS , AB
     }
     
-    public Student(String sid, String sname, String susername, String spassword, blood bl){
+    public Student(String sname, String susername, String spassword, blood bl){
         
-        this.sid = sid;
         this.sname = sname;
         this.susername = susername;
         this.spassword = spassword;
@@ -42,7 +41,7 @@ class Student{
    
     }
 
-    public String getSid() {
+    public int getSid() {
         return sid;
     }
 
@@ -63,7 +62,7 @@ class Student{
         return lesson;
     }
 
-    public void setSid(String sid) {
+    public void setSid(int sid) {
         this.sid = sid;
     }
 
@@ -93,49 +92,58 @@ class Student{
         setSpassword(pass);
     }
     
-    public Lessons addLesson(Lessons l, ArrayList<Lessons> Alessons){
-        lesson = getLesson();
-//        ArrayList<Lessons> lessonsList = getLesson();
-        if(l.getCapacity()>10){
-            System.out.println("There is no enough capacity in this lesson");
-        }
-        else{
-            for(Lessons i : Alessons){
-                if(i==l){
-//                    System.out.println("error5");
-                    if(lesson.contains(l)){
-                        System.out.println("Lesson is aleaady in the list "+ l);
-                    }
-                    else{
-                        System.out.println("error6");
-//                        lessonsList.add(l);
-                        lesson.add(l);
-//                        System.out.println(st);
-                        int  cap = l.getCapacity();
-                        cap = cap - 1;
-                        l.setCapacity(cap);
-                    }
-
-                }
-            }
-        }
-        return l;
-    }
-    public ArrayList<Lessons> removeLesson(Lessons less){
-        lesson = getLesson();
-        if(lesson.contains(less)){
-            lesson.remove(less);
-            int x = less.getCapacity();
-            x ++;
-            less.setCapacity(x);
-        }
-        else{
-            System.out.println("There's no such a lesson " + less);
-        }
-        
-        return lesson;
-    }
+//    public void addLesson(Lessons l){
+//        lesson = getLesson();
+//        for(Lessons i:lesson){
+//            if(i == l){
+//                l.addLesson(l);
+//            }
+//        }
+//    }
     
+//    public Lessons addLesson(Lessons l, ArrayList<Lessons> Alessons){
+//        lesson = getLesson();
+////        ArrayList<Lessons> lessonsList = getLesson();
+//        if(l.getCapacity()>10){
+//            System.out.println("There is no enough capacity in this lesson");
+//        }
+//        else{
+//            for(Lessons i : Alessons){
+//                if(i==l){
+////                    System.out.println("error5");
+//                    if(lesson.contains(l)){
+//                        System.out.println("Lesson is aleaady in the list "+ l);
+//                    }
+//                    else{
+//                        System.out.println("error6");
+////                        lessonsList.add(l);
+//                        lesson.add(l);
+////                        System.out.println(st);
+//                        int  cap = l.getCapacity();
+//                        cap = cap - 1;
+//                        l.setCapacity(cap);
+//                    }
+//
+//                }
+//            }
+//        }
+//        return l;
+//    }
+//    public ArrayList<Lessons> removeLesson(Lessons less){
+//        lesson = getLesson();
+//        if(lesson.contains(less)){
+//            lesson.remove(less);
+//            int x = less.getCapacity();
+//            x ++;
+//            less.setCapacity(x);
+//        }
+//        else{
+//            System.out.println("There's no such a lesson " + less);
+//        }
+//        
+//        return lesson;
+//    }
+//    
     public void printLessonlist(){
         ArrayList<Lessons> lessonslist = getLesson();
         for(Lessons i : lessonslist){

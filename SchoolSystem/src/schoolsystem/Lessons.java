@@ -9,7 +9,7 @@ class Lessons {
     private String name;
     private int capacity;
     ArrayList<Lessons> lessonlist = new ArrayList<Lessons>();
-    ArrayList<Student> studentslist = new ArrayList<Student>();
+//    ArrayList<Student> studentslist = new ArrayList<Student>();
 
     
      
@@ -21,21 +21,21 @@ class Lessons {
     }
      
      
-    public ArrayList<Student> getStudentslist() {
-        return studentslist;
-    }
-
-    public void setStudentslist(ArrayList<Student> studentslist) {
-        this.studentslist = studentslist;
-    }
-    
-    public void setLessonlist(ArrayList<Lessons> lessonlist) {
-        this.lessonlist = lessonlist;
-    }
-
-    public ArrayList<Lessons> getLessonlist() {
-        return lessonlist;
-    }
+//    public ArrayList<Student> getStudentslist() {
+//        return studentslist;
+//    }
+//
+//    public void setStudentslist(ArrayList<Student> studentslist) {
+//        this.studentslist = studentslist;
+//    }
+//    
+//    public void setLessonlist(ArrayList<Lessons> lessonlist) {
+//        this.lessonlist = lessonlist;
+//    }
+//
+//    public ArrayList<Lessons> getLessonlist() {
+//        return lessonlist;
+//    }
 
     public String getId() {
         return id;
@@ -62,22 +62,66 @@ class Lessons {
     }
     
     
-    public ArrayList<Student> studentsList(ArrayList<Student> students){
-        
-//        System.out.println("error2");
-        if( students.isEmpty()){
-            System.out.println("No students");
+//    public ArrayList<Student> studentsList(ArrayList<Student> students){
+//        
+////        System.out.println("error2");
+//        if( students.isEmpty()){
+//            System.out.println("No students");
+//        }
+//        else{
+//            
+////            System.out.println("error1");
+//            for(Student stu : students){
+//                studentslist.add(stu);
+////                System.out.println("error0");
+////                System.out.println(studentslist.toString());
+//            }
+//        }
+//        return studentslist;
+//    }
+    
+    public Lessons addLesson(Lessons l){
+//        String lesson = getId();
+//        ArrayList<Lessons> lessonsList = getLesson();
+        if(l.getCapacity()>10){
+            System.out.println("There is no enough capacity in this lesson");
         }
         else{
-            
-//            System.out.println("error1");
-            for(Student stu : students){
-                studentslist.add(stu);
-//                System.out.println("error0");
-//                System.out.println(studentslist.toString());
+            for(Lessons i : lessonlist){
+                if(i==l){
+//                    System.out.println("error5");
+                    if(lessonlist.contains(l)){
+                        System.out.println("Lesson is aleaady in the list "+ l);
+                    }
+                    else{
+                        System.out.println("error6");
+//                        lessonsList.add(l);
+                        lessonlist.add(l);
+//                        System.out.println(st);
+                        int  cap = l.getCapacity();
+                        cap = cap - 1;
+                        l.setCapacity(cap);
+                    }
+
+                }
             }
         }
-        return studentslist;
+        return l;
+    }
+    
+    public Lessons removeLesson(Lessons less){
+        
+        if(lessonlist.contains(less)){
+            lessonlist.remove(less);
+            int x = less.getCapacity();
+            x ++;
+            less.setCapacity(x);
+        }
+        else{
+            System.out.println("There's no such a lesson " + less);
+        }
+        
+        return less;
     }
     
     @Override
