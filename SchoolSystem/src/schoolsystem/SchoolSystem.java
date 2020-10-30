@@ -4,23 +4,26 @@ package schoolsystem;
 import Model.School;
 import Model.Admin;
 import Model.*;
-import java.util.ArrayList;
 import java.util.Scanner;
 import Model.LessonType;
 import Operations.*;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import Design.*;
 
 public class SchoolSystem {
 
     public static void main(String[] args) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Login().setVisible(true);
+            }
+        });
 //        Admin a = new Admin("1", "Shaza", "shazaalqays", "12");
         School sch = new School("1", "SCHOOL", "Beylikduzu", 123, 053);
 //        StudentOperations so = new StudentOperations();
 
-        System.out.println(sch);
-        System.out.println();
+//        System.out.println(sch);
+//        System.out.println();
 
         
         
@@ -55,6 +58,7 @@ public class SchoolSystem {
         List<String> tusernames = so.getTusernames();
         List<String> susernames = so.getSusernames();
         Lessons l1 = new Lessons();
+        
 //        // 1 .yöntem
 //        
 //        t = new Teacher();

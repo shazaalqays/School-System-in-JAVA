@@ -4,11 +4,13 @@
  * and open the template in the editor.
  */
 package Design;
-
-/**
- *
- * @author YOGA
- */
+import Model.School;
+import Model.Admin;
+import Model.*;
+import java.util.Scanner;
+import Model.LessonType;
+import Operations.*;
+import java.util.List;
 public class Login extends javax.swing.JFrame {
 
     /**
@@ -17,6 +19,17 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
     }
+    School sch = new School("1", "SCHOOL", "Beylikduzu", 123, 053);
+    SchoolOperations so = new SchoolOperations();
+    Admin a  = so.addAdmin("Shaza", "shaza", "123");
+    StudentOperations sp = new StudentOperations();
+    TeacherOperations to = new TeacherOperations();
+    List<Teacher> teacherlist = so.getTeachersList();
+    List<Student> studentlist = so.getStudentList();
+    List<Lessons> lessonlist = so.getLessonsList();
+    List<String> tusernames = so.getTusernames();
+    List<String> susernames = so.getSusernames();
+    Lessons l1 = new Lessons();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,7 +69,6 @@ public class Login extends javax.swing.JFrame {
 
         usernametxt.setBackground(new java.awt.Color(233, 144, 103));
         usernametxt.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
-        usernametxt.setText("username");
         usernametxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 usernametxtActionPerformed(evt);
@@ -65,7 +77,6 @@ public class Login extends javax.swing.JFrame {
 
         passwordtext.setBackground(new java.awt.Color(233, 144, 103));
         passwordtext.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
-        passwordtext.setText("jPasswordField1");
         passwordtext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passwordtextActionPerformed(evt);
@@ -131,6 +142,22 @@ public class Login extends javax.swing.JFrame {
 
     private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
         // TODO add your handling code here:
+        String user = username.getText();
+        String pass = password.getText();
+        if (username.equals(a.getUsername()) && password.equals(a.getPassword())) {
+//            System.out.println("You logged in as an admin");
+            AdminD ad = new AdminD();
+            ad.setVisible(true);
+        } else if (susernames.contains(username)) {
+//            System.out.println("You signed in as a student");
+            StudentD sd = new StudentD();
+            sd.setVisible(true);
+        } else if (tusernames.contains(username)) {
+//            System.out.println("You signed in as a teacher");
+            TeacherD td = new TeacherD();
+            td.setVisible(true);
+        }
+        
     }//GEN-LAST:event_LoginActionPerformed
 
     private void passwordtextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordtextActionPerformed
@@ -139,6 +166,21 @@ public class Login extends javax.swing.JFrame {
 
     private void LoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LoginMouseClicked
         // TODO add your handling code here:
+        String user = usernametxt.getText();
+        String pass = passwordtext.getText();
+        if (user.equals(a.getUsername()) && pass.equals(a.getPassword())) {
+//            System.out.println("You logged in as an admin");
+            AdminD ad = new AdminD();
+            ad.setVisible(true);
+        } else if (susernames.contains(user)) {
+//            System.out.println("You signed in as a student");
+            StudentD sd = new StudentD();
+            sd.setVisible(true);
+        } else if (tusernames.contains(user)) {
+//            System.out.println("You signed in as a teacher");
+            TeacherD td = new TeacherD();
+            td.setVisible(true);
+        }
     }//GEN-LAST:event_LoginMouseClicked
 
     private void usernametxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernametxtActionPerformed

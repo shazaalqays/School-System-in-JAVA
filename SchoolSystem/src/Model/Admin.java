@@ -52,7 +52,7 @@ public class Admin {
     
     @Override
     public String toString( ) {
-        String result = "Admin ID \t"+ id + "\nAdmin Name: \t" + name+ "\nUsername \t"+ username+"\nPassword \t"+ password+"\n";
+        String result = "Admin ID: \t\t"+ id + "\nAdmin Name: \t\t" + name+ "\nUsername: \t\t"+ username+"\nPassword: \t\t"+ password+"\n";
         return result;
     }
 }
