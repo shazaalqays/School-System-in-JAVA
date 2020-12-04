@@ -230,33 +230,83 @@ public class Login extends javax.swing.JFrame {
 
     private void passwordtextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordtextKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            String sql = "Select * from student where Username = ? and Password = ? ";
-//        JOptionPane.showMessageDialog(null, "ok");
-        try{
-            pst = conn.prepareStatement(sql);
-            pst.setString(1, usernametxt.getText());
-//            JOptionPane.showMessageDialog(null, usernametxt);
-            pst.setString(2, passwordtext.getText());
-//            JOptionPane.showMessageDialog(null, passwordtext);
-//            pst = conn.prepareStatement(sql);
-            rs = pst.executeQuery();
-            if(rs.next()){ // not working without ! 
-//                JOptionPane.showMessageDialog(null, "username and password is correct");
-                rs.close();
-                pst.close();
-                close();
-                AdminD sd = new AdminD();
-                sd.setVisible(true);
-                
-            }
-            else{
-                JOptionPane.showMessageDialog(null, "username and password is not correct");
-            }
             
-        }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
-        }
+//        JOptionPane.showMessageDialog(null, "ok");
+            try{
+                String sql = "Select * from ADMIN where Username = ? and Password = ? ";
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, usernametxt.getText());
+//              JOptionPane.showMessageDialog(null, usernametxt);
+                pst.setString(2, passwordtext.getText());
+//              JOptionPane.showMessageDialog(null, passwordtext);
+//              pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                if(rs.next()){ // not working without ! 
+//                  JOptionPane.showMessageDialog(null, "username and password is correct");
+                    rs.close();
+                    pst.close();
+                    close();
+                    AdminD ad = new AdminD();
+                    ad.setVisible(true);
+                
+                }
+//                else{
+//                    JOptionPane.showMessageDialog(null, "username and password is not correct");
+//                }  
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+            try{
+                String sql = "Select * from student where Username = ? and Password = ? ";
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, usernametxt.getText());
+//              JOptionPane.showMessageDialog(null, usernametxt);
+                pst.setString(2, passwordtext.getText());
+//              JOptionPane.showMessageDialog(null, passwordtext);
+//              pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                if(rs.next()){ // not working without ! 
+//                  JOptionPane.showMessageDialog(null, "username and password is correct");
+                    rs.close();
+                    pst.close();
+                    close();
+                    StudentD sd = new StudentD();
+                    sd.setVisible(true);
+                
+                }
+//                else{
+//                    JOptionPane.showMessageDialog(null, "username and password is not correct");
+//                }  
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+            try{
+                String sql = "Select * from Teacher where Username = ? and Password = ? ";
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, usernametxt.getText());
+//              JOptionPane.showMessageDialog(null, usernametxt);
+                pst.setString(2, passwordtext.getText());
+//              JOptionPane.showMessageDialog(null, passwordtext);
+//              pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                if(rs.next()){ // not working without ! 
+//                  JOptionPane.showMessageDialog(null, "username and password is correct");
+                    rs.close();
+                    pst.close();
+                    close();
+                    TeacherD teach = new TeacherD();
+                    teach.setVisible(true);
+                
+                }
+//                else{
+//                    JOptionPane.showMessageDialog(null, "username and password is not correct");
+//                }  
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
         }
     }//GEN-LAST:event_passwordtextKeyPressed
 
