@@ -5,6 +5,7 @@
  */
 package Design;
 
+import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import java.awt.event.*;
 import java.sql.*;
@@ -29,6 +30,11 @@ public class AdminD extends javax.swing.JFrame {
         loadTeacherData();
         loadStudentData();
         loadLessonData();
+    }
+    public void close(){
+        WindowEvent winClose = new WindowEvent(this,WindowEvent.WINDOW_CLOSING);
+        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClose);
+        
     }
     
     private void updateTeacherTable(){
@@ -917,7 +923,10 @@ public class AdminD extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutActionPerformed
 
     private void logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutMouseClicked
-        System.exit(0);
+        
+        close();
+        Login log = new Login();
+        log.setVisible(true);
     }//GEN-LAST:event_logoutMouseClicked
 
     private void clear_textActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clear_textActionPerformed
