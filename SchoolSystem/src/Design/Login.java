@@ -11,25 +11,33 @@ import java.util.Scanner;
 import Model.LessonType;
 import Operations.*;
 import java.util.List;
+import java.awt.event.*;
+import java.awt.*;
+import javax.swing.*;
+import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import schoolsystem.connection;
 public class Login extends javax.swing.JFrame {
-
+    Connection conn = null;
+    ResultSet rs = null;
+    PreparedStatement pst = null;
+    
+    
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
+        conn = connection.connecrDb();
+        
     }
-    School sch = new School("1", "SCHOOL", "Beylikduzu", 123, 053);
-    SchoolOperations so = new SchoolOperations();
-    Admin a  = so.addAdmin("Shaza", "shaza", "123");
-    StudentOperations sp = new StudentOperations();
-    TeacherOperations to = new TeacherOperations();
-    List<Teacher> teacherlist = so.getTeachersList();
-    List<Student> studentlist = so.getStudentList();
-    List<Lessons> lessonlist = so.getLessonsList();
-    List<String> tusernames = so.getTusernames();
-    List<String> susernames = so.getSusernames();
-    Lessons l1 = new Lessons();
+    public void close(){
+        WindowEvent winClose = new WindowEvent(this,WindowEvent.WINDOW_CLOSING);
+        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClose);
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -47,13 +55,13 @@ public class Login extends javax.swing.JFrame {
         username = new javax.swing.JLabel();
         password = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(233, 144, 103));
-        jPanel1.setForeground(new java.awt.Color(233, 144, 103));
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
         jPanel1.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
 
-        Login.setBackground(new java.awt.Color(233, 144, 103));
+        Login.setBackground(new java.awt.Color(255, 255, 255));
         Login.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         Login.setLabel("Login");
         Login.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -67,7 +75,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        usernametxt.setBackground(new java.awt.Color(233, 144, 103));
         usernametxt.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         usernametxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -75,11 +82,15 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        passwordtext.setBackground(new java.awt.Color(233, 144, 103));
         passwordtext.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         passwordtext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passwordtextActionPerformed(evt);
+            }
+        });
+        passwordtext.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordtextKeyPressed(evt);
             }
         });
 
@@ -142,50 +153,112 @@ public class Login extends javax.swing.JFrame {
 
     private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
         // TODO add your handling code here:
-        String user = username.getText();
-        String pass = password.getText();
-        if (username.equals(a.getUsername()) && password.equals(a.getPassword())) {
-//            System.out.println("You logged in as an admin");
-            AdminD ad = new AdminD();
-            ad.setVisible(true);
-        } else if (susernames.contains(username)) {
-//            System.out.println("You signed in as a student");
-            StudentD sd = new StudentD();
-            sd.setVisible(true);
-        } else if (tusernames.contains(username)) {
-//            System.out.println("You signed in as a teacher");
-            TeacherD td = new TeacherD();
-            td.setVisible(true);
+        String sql = "Select * from student where Username = ? and Password = ? ";
+//        JOptionPane.showMessageDialog(null, "ok");
+        try{
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, usernametxt.getText());
+//            JOptionPane.showMessageDialog(null, usernametxt);
+            pst.setString(2, passwordtext.getText());
+//            JOptionPane.showMessageDialog(null, passwordtext);
+//            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            if(rs.next()){ // not working without ! 
+//                JOptionPane.showMessageDialog(null, "username and password is correct");
+                rs.close();
+                pst.close();
+                close();
+                AdminD sd = new AdminD();
+                sd.setVisible(true);
+                
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "username and password is not correct");
+            }
+            
         }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    
+//        String user = username.getText();
+//        String pass = password.getText();
+//        if (username.equals(a.getUsername()) && password.equals(a.getPassword())) {
+////            System.out.println("You logged in as an admin");
+//            AdminD ad = new AdminD();
+//            ad.setVisible(true);
+//        } else if (susernames.contains(username)) {
+////            System.out.println("You signed in as a student");
+//            StudentD sd = new StudentD();
+//            sd.setVisible(true);
+//        } else if (tusernames.contains(username)) {
+////            System.out.println("You signed in as a teacher");
+//            TeacherD td = new TeacherD();
+//            td.setVisible(true);
+//        }
         
     }//GEN-LAST:event_LoginActionPerformed
-
+    
+    
+    
     private void passwordtextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordtextActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordtextActionPerformed
 
     private void LoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LoginMouseClicked
         // TODO add your handling code here:
-        String user = usernametxt.getText();
-        String pass = passwordtext.getText();
-        if (user.equals(a.getUsername()) && pass.equals(a.getPassword())) {
-//            System.out.println("You logged in as an admin");
-            AdminD ad = new AdminD();
-            ad.setVisible(true);
-        } else if (susernames.contains(user)) {
-//            System.out.println("You signed in as a student");
-            StudentD sd = new StudentD();
-            sd.setVisible(true);
-        } else if (tusernames.contains(user)) {
-//            System.out.println("You signed in as a teacher");
-            TeacherD td = new TeacherD();
-            td.setVisible(true);
-        }
+//        String user = usernametxt.getText();
+//        String pass = passwordtext.getText();
+//        if (user.equals(a.getUsername()) && pass.equals(a.getPassword())) {
+////            System.out.println("You logged in as an admin");
+//            AdminD ad = new AdminD();
+//            ad.setVisible(true);
+//        } else if (susernames.contains(user)) {
+////            System.out.println("You signed in as a student");
+//            StudentD sd = new StudentD();
+//            sd.setVisible(true);
+//        } else if (tusernames.contains(user)) {
+////            System.out.println("You signed in as a teacher");
+//            TeacherD td = new TeacherD();
+//            td.setVisible(true);
+//        }
     }//GEN-LAST:event_LoginMouseClicked
 
     private void usernametxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernametxtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usernametxtActionPerformed
+
+    private void passwordtextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordtextKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            String sql = "Select * from student where Username = ? and Password = ? ";
+//        JOptionPane.showMessageDialog(null, "ok");
+        try{
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, usernametxt.getText());
+//            JOptionPane.showMessageDialog(null, usernametxt);
+            pst.setString(2, passwordtext.getText());
+//            JOptionPane.showMessageDialog(null, passwordtext);
+//            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            if(rs.next()){ // not working without ! 
+//                JOptionPane.showMessageDialog(null, "username and password is correct");
+                rs.close();
+                pst.close();
+                close();
+                AdminD sd = new AdminD();
+                sd.setVisible(true);
+                
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "username and password is not correct");
+            }
+            
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        }
+    }//GEN-LAST:event_passwordtextKeyPressed
 
     /**
      * @param args the command line arguments

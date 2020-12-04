@@ -5,17 +5,100 @@
  */
 package Design;
 
-/**
- *
- * @author YOGA
- */
+import javax.swing.JOptionPane;
+import java.awt.event.*;
+import java.sql.*;
+import javax.swing.table.DefaultTableModel;
+import net.proteanit.sql.DbUtils;
+import schoolsystem.connection;
+
 public class TeacherD extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Teacher
-     */
+    Connection conn = null;
+    ResultSet rs = null;
+    PreparedStatement pst = null;
+    
     public TeacherD() {
         initComponents();
+        conn = connection.connecrDb();
+        updateLessonTable();
+        loadLessonData();
+    }
+    
+    private void updateLessonTable(){
+        try{
+            String sql = "select * from lesson ";
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            table_people1.setModel(DbUtils.resultSetToTableModel(rs));
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }   
+    }
+    
+    private void loadLessonData(){
+        try {
+            String sql = "select * from lesson";
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(table_people1.getRowCount() > 0){
+                ((DefaultTableModel)table_people1.getModel()).removeRow(0);
+                
+            }
+            int col = rs.getMetaData().getColumnCount();
+            while(rs.next()){
+                Object [] rows = new Object[col];
+                for(int i = 1; i<=col; i++){
+                    rows[i-1] = rs.getObject(i);
+                }
+                ((DefaultTableModel)table_people1.getModel()).insertRow(rs.getRow() -1, rows);
+            }
+            rs.close();
+            pst.close();
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        updateLessonTable();
+    }
+    
+    private void updateStudentTable(){
+        try{
+            String sql = "select * from Teacher_Stable";
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            table_people1.setModel(DbUtils.resultSetToTableModel(rs));
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }   
+    }
+    
+    private void loadStudentData(){
+        try {
+            String sql = "select * from Teacher_Stable";
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(table_people1.getRowCount() > 0){
+                ((DefaultTableModel)table_people1.getModel()).removeRow(0);
+                
+            }
+            int col = rs.getMetaData().getColumnCount();
+            while(rs.next()){
+                Object [] rows = new Object[col];
+                for(int i = 1; i<=col; i++){
+                    rows[i-1] = rs.getObject(i);
+                }
+                ((DefaultTableModel)table_people1.getModel()).insertRow(rs.getRow() -1, rows);
+            }
+            rs.close();
+            pst.close();
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        updateStudentTable();
     }
 
     /**
@@ -27,88 +110,757 @@ public class TeacherD extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        lessons = new javax.swing.JPanel();
-        mlessons = new javax.swing.JLabel();
-        students = new javax.swing.JPanel();
-        mstudents = new javax.swing.JLabel();
+        search_txt1 = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        logout1 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        table_people1 = new javax.swing.JTable();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        sid_text = new javax.swing.JTextField();
+        sname_txt = new javax.swing.JTextField();
+        jPanel13 = new javax.swing.JPanel();
+        save_botton3 = new javax.swing.JButton();
+        del_button3 = new javax.swing.JButton();
+        clear_text3 = new javax.swing.JButton();
+        students = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        les_text = new javax.swing.JTextField();
+        jPanel14 = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        lid_text1 = new javax.swing.JTextField();
+        lname_txt1 = new javax.swing.JTextField();
+        jPanel15 = new javax.swing.JPanel();
+        save_botton4 = new javax.swing.JButton();
+        del_button4 = new javax.swing.JButton();
+        clear_text4 = new javax.swing.JButton();
+        update_text = new javax.swing.JButton();
+        lessons1 = new javax.swing.JButton();
+        cap_text = new javax.swing.JLabel();
+        tech_text1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
-        jPanel1.setBackground(new java.awt.Color(233, 144, 103));
+        search_txt1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                search_txt1ActionPerformed(evt);
+            }
+        });
+        search_txt1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                search_txt1KeyReleased(evt);
+            }
+        });
 
-        lessons.setBackground(new java.awt.Color(233, 180, 170));
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabel9.setText("Search");
 
-        mlessons.setText("Lessons");
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iconfinder_minus-remove-delete-minimize_2931142 (2).png"))); // NOI18N
+        jLabel15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel15MouseClicked(evt);
+            }
+        });
 
-        javax.swing.GroupLayout lessonsLayout = new javax.swing.GroupLayout(lessons);
-        lessons.setLayout(lessonsLayout);
-        lessonsLayout.setHorizontalGroup(
-            lessonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lessonsLayout.createSequentialGroup()
+        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iconfinder_plus-add-new-create-attach-maximize_2931155 (1).png"))); // NOI18N
+        jLabel16.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel16MouseClicked(evt);
+            }
+        });
+
+        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iconfinder_exit-delete-remove-close-x_2931151.png"))); // NOI18N
+        jLabel17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel17MouseClicked(evt);
+            }
+        });
+
+        logout1.setText("Logout");
+        logout1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logout1MouseClicked(evt);
+            }
+        });
+        logout1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logout1ActionPerformed(evt);
+            }
+        });
+
+        table_people1.setBackground(new java.awt.Color(204, 204, 204));
+        table_people1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Name", "Capacity"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        table_people1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                table_people1MouseClicked(evt);
+            }
+        });
+        table_people1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                table_people1KeyPressed(evt);
+            }
+        });
+        jScrollPane2.setViewportView(table_people1);
+
+        jPanel12.setBackground(new java.awt.Color(204, 204, 204));
+
+        jLabel13.setText("Name");
+
+        jLabel14.setText("ID");
+
+        sid_text.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sid_textActionPerformed(evt);
+            }
+        });
+
+        jPanel13.setBackground(new java.awt.Color(204, 204, 204));
+
+        save_botton3.setText("Save");
+        save_botton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                save_botton3ActionPerformed(evt);
+            }
+        });
+
+        del_button3.setText("Delete");
+        del_button3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                del_button3ActionPerformed(evt);
+            }
+        });
+
+        clear_text3.setText("Clear");
+        clear_text3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clear_text3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mlessons, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(clear_text3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(del_button3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(save_botton3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
-        lessonsLayout.setVerticalGroup(
-            lessonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mlessons, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-        );
-
-        students.setBackground(new java.awt.Color(233, 180, 170));
-        students.setPreferredSize(new java.awt.Dimension(107, 36));
-
-        mstudents.setText("Students");
-        mstudents.setPreferredSize(new java.awt.Dimension(76, 20));
-
-        javax.swing.GroupLayout studentsLayout = new javax.swing.GroupLayout(students);
-        students.setLayout(studentsLayout);
-        studentsLayout.setHorizontalGroup(
-            studentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(studentsLayout.createSequentialGroup()
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mstudents, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        studentsLayout.setVerticalGroup(
-            studentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mstudents, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(students, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lessons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(278, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lessons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(save_botton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(students, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(203, Short.MAX_VALUE))
+                .addComponent(del_button3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(clear_text3)
+                .addContainerGap())
+        );
+
+        students.setText("Students");
+        students.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                studentsMouseClicked(evt);
+            }
+        });
+        students.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                studentsActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Lesson");
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(students, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(122, 122, 122))
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(sname_txt)
+                    .addComponent(sid_text, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(les_text))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel12Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel14)
+                                    .addComponent(sid_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(students))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13)
+                            .addComponent(sname_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(les_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel14.setBackground(new java.awt.Color(204, 204, 204));
+
+        jLabel18.setText("Lesson");
+
+        jLabel19.setText("ID");
+
+        jPanel15.setBackground(new java.awt.Color(204, 204, 204));
+
+        save_botton4.setText("Save");
+        save_botton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                save_botton4ActionPerformed(evt);
+            }
+        });
+
+        del_button4.setText("Delete");
+        del_button4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                del_button4ActionPerformed(evt);
+            }
+        });
+
+        clear_text4.setText("Clear");
+        clear_text4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clear_text4ActionPerformed(evt);
+            }
+        });
+
+        update_text.setText("Update");
+        update_text.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                update_textActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(del_button4, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                        .addComponent(save_botton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(clear_text4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(update_text, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(save_botton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(del_button4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(update_text)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(clear_text4)
+                .addContainerGap())
+        );
+
+        lessons1.setText("Lessons");
+        lessons1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lessons1MouseClicked(evt);
+            }
+        });
+        lessons1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lessons1ActionPerformed(evt);
+            }
+        });
+
+        cap_text.setText("Capacity");
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lessons1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                        .addGap(122, 122, 122))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel18)
+                            .addComponent(cap_text))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lname_txt1)
+                    .addComponent(lid_text1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tech_text1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel14Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel19)
+                                    .addComponent(lid_text1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lessons1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel18)
+                            .addComponent(lname_txt1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cap_text)
+                            .addComponent(tech_text1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(search_txt1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(logout1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(21, 21, 21))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(search_txt1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9)
+                            .addComponent(logout1)))
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void search_txt1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_txt1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_search_txt1ActionPerformed
+
+    private void search_txt1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_search_txt1KeyReleased
+        try{
+            String sql = "select * from Teacher_Stable where Name = ?";
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, search_txt1.getText());
+            rs = pst.executeQuery();
+            if(rs.next()){
+                String add1 = rs.getString("ID");
+                sid_text.setText(add1);
+                String add2 = rs.getString("Name");
+                sname_txt.setText(add2);
+                String add3 = rs.getString("Lesson");
+                les_text.setText(add3);
+            }
+            rs.close();
+            pst.close();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        try{
+            String sql = "select * from Teacher_Stable where ID = ?";
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, search_txt1.getText());
+            rs = pst.executeQuery();
+            if(rs.next()){
+                String add1 = rs.getString("ID");
+                sid_text.setText(add1);
+                String add2 = rs.getString("Name");
+                sname_txt.setText(add2);
+                String add3 = rs.getString("Lesson");
+                les_text.setText(add3);
+            }
+            rs.close();
+            pst.close();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        try{
+            String sql = "select * from Teacher_Stable where Lesson = ?";
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, search_txt1.getText());
+            rs = pst.executeQuery();
+            if(rs.next()){
+                String add1 = rs.getString("ID");
+                sid_text.setText(add1);
+                String add2 = rs.getString("Name");
+                sname_txt.setText(add2);
+                String add3 = rs.getString("Lesson");
+                les_text.setText(add3);
+            }
+            rs.close();
+            pst.close();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        try{
+            String sql = "select * from lesson where Name = ?";
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, search_txt1.getText());
+            rs = pst.executeQuery();
+            if(rs.next()){
+                String add1 = rs.getString("ID");
+                lid_text1.setText(add1);
+                String add2 = rs.getString("Name");
+                lname_txt1.setText(add2);
+                String add3 = rs.getString("Capacity");
+                cap_text.setText(add3);
+            }
+            rs.close();
+            pst.close();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        try{
+            String sql = "select * from lesson where ID = ?";
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, search_txt1.getText());
+            rs = pst.executeQuery();
+            if(rs.next()){
+                String add1 = rs.getString("ID");
+                lid_text1.setText(add1);
+                String add2 = rs.getString("Name");
+                lname_txt1.setText(add2);
+                String add3 = rs.getString("Capacity");
+                cap_text.setText(add3);
+            }
+            rs.close();
+            pst.close();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+    }//GEN-LAST:event_search_txt1KeyReleased
+
+    private void jLabel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel15MouseClicked
+        this.setExtendedState(AdminD.ICONIFIED);
+    }//GEN-LAST:event_jLabel15MouseClicked
+
+    private void jLabel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MouseClicked
+        if(this.getExtendedState() != AdminD.MAXIMIZED_BOTH){
+            this.setExtendedState(AdminD.MAXIMIZED_BOTH);
+        }
+        else{
+            this.setExtendedState(AdminD.NORMAL);
+        }
+    }//GEN-LAST:event_jLabel16MouseClicked
+
+    private void jLabel17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_jLabel17MouseClicked
+
+    private void logout1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logout1MouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_logout1MouseClicked
+
+    private void logout1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logout1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_logout1ActionPerformed
+
+    private void table_people1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_people1MouseClicked
+
+        try{
+                int row = table_people1.getSelectedRow();
+                String click = (table_people1.getModel().getValueAt(row,0).toString());
+                String sql = "select * from lesson where ID= '"+click+"'";
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                if(rs.next()){
+                    String add1 = rs.getString("ID");
+                    lid_text1.setText(add1);
+                    String add2 = rs.getString("Name");
+                    lname_txt1.setText(add2);
+                    String add3 = rs.getString("Capacity");
+                    cap_text.setText(add3);
+                }
+                
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+        try{
+                int row = table_people1.getSelectedRow();
+                String click = (table_people1.getModel().getValueAt(row,0).toString());
+                String sql = "select * from Teacher_Stable where ID= '"+click+"'";
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                if(rs.next()){
+                    String add1 = rs.getString("ID");
+                    sid_text.setText(add1);
+                    String add2 = rs.getString("Name");
+                    sname_txt.setText(add2);
+                    String add3 = rs.getString("Lesson");
+                    les_text.setText(add3);
+                }
+                
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+    }//GEN-LAST:event_table_people1MouseClicked
+
+    private void table_people1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_table_people1KeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_DOWN || evt.getKeyCode() == KeyEvent.VK_UP){
+
+            try{
+                int row = table_people1.getSelectedRow();
+                String click = (table_people1.getModel().getValueAt(row,0).toString());
+                String sql = "select * from lesson where ID= '"+click+"'";
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                if(rs.next()){
+                    String add1 = rs.getString("ID");
+                    lid_text1.setText(add1);
+                    String add2 = rs.getString("Name");
+                    lname_txt1.setText(add2);
+                    String add3 = rs.getString("Capacity");
+                    cap_text.setText(add3);
+                }
+                
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+            try{
+                int row = table_people1.getSelectedRow();
+                String click = (table_people1.getModel().getValueAt(row,0).toString());
+                String sql = "select * from Teacher_Stable where ID= '"+click+"'";
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                if(rs.next()){
+                    String add1 = rs.getString("ID");
+                    sid_text.setText(add1);
+                    String add2 = rs.getString("Name");
+                    sname_txt.setText(add2);
+                    String add3 = rs.getString("Lesson");
+                    les_text.setText(add3);
+                }
+                
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }//GEN-LAST:event_table_people1KeyPressed
+
+    private void save_botton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_save_botton3ActionPerformed
+        try{
+            String sql ="Insert into Teacher_Stable (ID, Name, Lesson) values (?,?,?)";
+            pst = conn.prepareStatement(sql);
+            pst.setString(2, sname_txt.getText());
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "Saved");
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        updateStudentTable();
+    }//GEN-LAST:event_save_botton3ActionPerformed
+
+    private void del_button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_del_button3ActionPerformed
+        int p = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete?", "Delete", JOptionPane.YES_NO_OPTION);
+        if(p == 0){
+            try{
+                String sql ="delete from Teacher_Stable where ID = ?";
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, sid_text.getText());
+                pst.execute();
+                JOptionPane.showMessageDialog(null, "Deleted");
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+            updateStudentTable();
+        }
+    }//GEN-LAST:event_del_button3ActionPerformed
+
+    private void clear_text3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clear_text3ActionPerformed
+        sid_text.setText("");
+        sname_txt.setText("");
+        les_text.setText("");
+    }//GEN-LAST:event_clear_text3ActionPerformed
+
+    private void studentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentsMouseClicked
+        students.setOpaque(true);
+        lessons1.setOpaque(false);
+
+        loadStudentData();
+    }//GEN-LAST:event_studentsMouseClicked
+
+    private void studentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_studentsActionPerformed
+
+    private void save_botton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_save_botton4ActionPerformed
+        try{
+            String sql ="Insert into lesson (Name, Capacity) values (?,?)";
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, lname_txt1.getText());
+            pst.setString(2, cap_text.getText());
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "Saved");
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        updateLessonTable();
+        loadLessonData();
+    }//GEN-LAST:event_save_botton4ActionPerformed
+
+    private void del_button4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_del_button4ActionPerformed
+        int p = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete?", "Delete", JOptionPane.YES_NO_OPTION);
+        if(p == 0){
+            try{
+                String sql ="delete from lesson where ID = ?";
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, lid_text1.getText());
+                pst.execute();
+                JOptionPane.showMessageDialog(null, "Deleted");
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+            updateLessonTable();
+            loadLessonData();
+        }
+    }//GEN-LAST:event_del_button4ActionPerformed
+
+    private void clear_text4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clear_text4ActionPerformed
+        lid_text1.setText("");
+        lname_txt1.setText("");
+        cap_text.setText("");
+    }//GEN-LAST:event_clear_text4ActionPerformed
+
+    private void lessons1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lessons1MouseClicked
+        lessons1.setOpaque(true);
+        students.setOpaque(false);
+        loadLessonData();
+    }//GEN-LAST:event_lessons1MouseClicked
+
+    private void lessons1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lessons1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lessons1ActionPerformed
+
+    private void update_textActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_textActionPerformed
+
+        try{
+            String val1 = lid_text1.getText();
+            String val2 = lname_txt1.getText();
+            String val3 = cap_text.getText();
+            String sql = "update lesson set ID = '"+val1+"', Name = '"+val2+"' , Capacity = '"+val3+"' where ID ='"+val1+"'";
+            pst = conn.prepareStatement(sql);
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "Updated");
+
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        loadLessonData();
+        updateLessonTable();
+
+    }//GEN-LAST:event_update_textActionPerformed
+
+    private void sid_textActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sid_textActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sid_textActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,10 +899,38 @@ public class TeacherD extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel lessons;
-    private javax.swing.JLabel mlessons;
-    private javax.swing.JLabel mstudents;
-    private javax.swing.JPanel students;
+    private javax.swing.JLabel cap_text;
+    private javax.swing.JButton clear_text3;
+    private javax.swing.JButton clear_text4;
+    private javax.swing.JButton del_button3;
+    private javax.swing.JButton del_button4;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField les_text;
+    private javax.swing.JButton lessons1;
+    private javax.swing.JTextField lid_text1;
+    private javax.swing.JTextField lname_txt1;
+    private javax.swing.JButton logout1;
+    private javax.swing.JButton save_botton3;
+    private javax.swing.JButton save_botton4;
+    private javax.swing.JTextField search_txt1;
+    private javax.swing.JTextField sid_text;
+    private javax.swing.JTextField sname_txt;
+    private javax.swing.JButton students;
+    private javax.swing.JTable table_people1;
+    private javax.swing.JTextField tech_text1;
+    private javax.swing.JButton update_text;
     // End of variables declaration//GEN-END:variables
 }
