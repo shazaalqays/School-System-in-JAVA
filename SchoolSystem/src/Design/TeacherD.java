@@ -24,6 +24,12 @@ public class TeacherD extends javax.swing.JFrame {
         conn = connection.connecrDb();
         updateLessonTable();
         loadLessonData();
+        loadSData();
+        updateSTable();
+        updateStudentTable();
+        loadStudentData();
+        updateTTable();
+        loadTData();
     }
     
     public void close(){
@@ -43,7 +49,7 @@ public class TeacherD extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }   
     }
-    
+//    
     private void loadLessonData(){
         try {
             String sql = "select * from lesson";
@@ -69,10 +75,46 @@ public class TeacherD extends javax.swing.JFrame {
         }
         updateLessonTable();
     }
-    
-    private void updateStudentTable(){
+    private void updateTTable(){
         try{
-            String sql = "select * from Teacher_Stable";
+            String sql = "select * from Teacher_Ltable ";
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            lesson_table.setModel(DbUtils.resultSetToTableModel(rs));
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }   
+    }
+    
+    private void loadTData(){
+        try {
+            String sql = "select * from Teacher_Ltable";
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(lesson_table.getRowCount() > 0){
+                ((DefaultTableModel)lesson_table.getModel()).removeRow(0);
+                
+            }
+            int col = rs.getMetaData().getColumnCount();
+            while(rs.next()){
+                Object [] rows = new Object[col];
+                for(int i = 1; i<=col; i++){
+                    rows[i-1] = rs.getObject(i);
+                }
+                ((DefaultTableModel)lesson_table.getModel()).insertRow(rs.getRow() -1, rows);
+            }
+            rs.close();
+            pst.close();
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        updateTTable();
+    }
+    private void updateSTable(){
+        try{
+            String sql = "select * from student ";
             pst = conn.prepareStatement(sql);
             rs = pst.executeQuery();
             table_people1.setModel(DbUtils.resultSetToTableModel(rs));
@@ -82,9 +124,9 @@ public class TeacherD extends javax.swing.JFrame {
         }   
     }
     
-    private void loadStudentData(){
+    private void loadSData(){
         try {
-            String sql = "select * from Teacher_Stable";
+            String sql = "select * from student";
             pst = conn.prepareStatement(sql);
             rs = pst.executeQuery();
             while(table_people1.getRowCount() > 0){
@@ -98,6 +140,44 @@ public class TeacherD extends javax.swing.JFrame {
                     rows[i-1] = rs.getObject(i);
                 }
                 ((DefaultTableModel)table_people1.getModel()).insertRow(rs.getRow() -1, rows);
+            }
+            rs.close();
+            pst.close();
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        updateSTable();
+    }
+    
+    private void updateStudentTable(){
+        try{
+            String sql = "select * from Teacher_Stable";
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            students_table.setModel(DbUtils.resultSetToTableModel(rs));
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }   
+    }
+    
+    private void loadStudentData(){
+        try {
+            String sql = "select * from Teacher_Stable";
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(students_table.getRowCount() > 0){
+                ((DefaultTableModel)students_table.getModel()).removeRow(0);
+                
+            }
+            int col = rs.getMetaData().getColumnCount();
+            while(rs.next()){
+                Object [] rows = new Object[col];
+                for(int i = 1; i<=col; i++){
+                    rows[i-1] = rs.getObject(i);
+                }
+                ((DefaultTableModel)students_table.getModel()).insertRow(rs.getRow() -1, rows);
             }
             rs.close();
             pst.close();
@@ -150,6 +230,10 @@ public class TeacherD extends javax.swing.JFrame {
         lessons1 = new javax.swing.JButton();
         cap_text = new javax.swing.JLabel();
         tech_text1 = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        students_table = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        lesson_table = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -348,7 +432,7 @@ public class TeacherD extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(les_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(92, Short.MAX_VALUE))
         );
 
         jPanel14.setBackground(new java.awt.Color(204, 204, 204));
@@ -477,6 +561,52 @@ public class TeacherD extends javax.swing.JFrame {
                 .addContainerGap(54, Short.MAX_VALUE))
         );
 
+        students_table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        students_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                students_tableMouseClicked(evt);
+            }
+        });
+        students_table.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                students_tableKeyPressed(evt);
+            }
+        });
+        jScrollPane1.setViewportView(students_table);
+
+        lesson_table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        lesson_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lesson_tableMouseClicked(evt);
+            }
+        });
+        lesson_table.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                lesson_tableKeyPressed(evt);
+            }
+        });
+        jScrollPane3.setViewportView(lesson_table);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -502,9 +632,14 @@ public class TeacherD extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -523,10 +658,14 @@ public class TeacherD extends javax.swing.JFrame {
                     .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -539,7 +678,7 @@ public class TeacherD extends javax.swing.JFrame {
 
     private void search_txt1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_search_txt1KeyReleased
         try{
-            String sql = "select * from Teacher_Stable where Name = ?";
+            String sql = "select * from student where Name = ?";
             pst = conn.prepareStatement(sql);
             pst.setString(1, search_txt1.getText());
             rs = pst.executeQuery();
@@ -548,8 +687,8 @@ public class TeacherD extends javax.swing.JFrame {
                 sid_text.setText(add1);
                 String add2 = rs.getString("Name");
                 sname_txt.setText(add2);
-                String add3 = rs.getString("Lesson");
-                les_text.setText(add3);
+//                String add3 = rs.getString("Lesson");
+//                les_text.setText(add3);
             }
             rs.close();
             pst.close();
@@ -558,7 +697,7 @@ public class TeacherD extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
         try{
-            String sql = "select * from Teacher_Stable where ID = ?";
+            String sql = "select * from student where ID = ?";
             pst = conn.prepareStatement(sql);
             pst.setString(1, search_txt1.getText());
             rs = pst.executeQuery();
@@ -567,8 +706,8 @@ public class TeacherD extends javax.swing.JFrame {
                 sid_text.setText(add1);
                 String add2 = rs.getString("Name");
                 sname_txt.setText(add2);
-                String add3 = rs.getString("Lesson");
-                les_text.setText(add3);
+//                String add3 = rs.getString("Lesson");
+//                les_text.setText(add3);
             }
             rs.close();
             pst.close();
@@ -578,6 +717,25 @@ public class TeacherD extends javax.swing.JFrame {
         }
         try{
             String sql = "select * from Teacher_Stable where Lesson = ?";
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, search_txt1.getText());
+            rs = pst.executeQuery();
+            if(rs.next()){
+                String add1 = rs.getString("ID");
+                sid_text.setText(add1);
+                String add2 = rs.getString("Name");
+                sname_txt.setText(add2);
+                String add3 = rs.getString("Lesson");
+                les_text.setText(add3);
+            }
+            rs.close();
+            pst.close();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        try{
+            String sql = "select * from Teacher_Stable where Name = ?";
             pst = conn.prepareStatement(sql);
             pst.setString(1, search_txt1.getText());
             rs = pst.executeQuery();
@@ -679,7 +837,6 @@ public class TeacherD extends javax.swing.JFrame {
                     String add3 = rs.getString("Capacity");
                     cap_text.setText(add3);
                 }
-                
             }
             catch(Exception e){
                 JOptionPane.showMessageDialog(null, e);
@@ -687,7 +844,7 @@ public class TeacherD extends javax.swing.JFrame {
         try{
                 int row = table_people1.getSelectedRow();
                 String click = (table_people1.getModel().getValueAt(row,0).toString());
-                String sql = "select * from Teacher_Stable where ID= '"+click+"'";
+                String sql = "select * from student where ID= '"+click+"'";
                 pst = conn.prepareStatement(sql);
                 rs = pst.executeQuery();
                 if(rs.next()){
@@ -695,10 +852,9 @@ public class TeacherD extends javax.swing.JFrame {
                     sid_text.setText(add1);
                     String add2 = rs.getString("Name");
                     sname_txt.setText(add2);
-                    String add3 = rs.getString("Lesson");
-                    les_text.setText(add3);
+//                    String add3 = rs.getString("Lesson");
+//                    les_text.setText(add3);
                 }
-                
             }
             catch(Exception e){
                 JOptionPane.showMessageDialog(null, e);
@@ -730,7 +886,7 @@ public class TeacherD extends javax.swing.JFrame {
             try{
                 int row = table_people1.getSelectedRow();
                 String click = (table_people1.getModel().getValueAt(row,0).toString());
-                String sql = "select * from Teacher_Stable where ID= '"+click+"'";
+                String sql = "select * from student where ID= '"+click+"'";
                 pst = conn.prepareStatement(sql);
                 rs = pst.executeQuery();
                 if(rs.next()){
@@ -738,8 +894,8 @@ public class TeacherD extends javax.swing.JFrame {
                     sid_text.setText(add1);
                     String add2 = rs.getString("Name");
                     sname_txt.setText(add2);
-                    String add3 = rs.getString("Lesson");
-                    les_text.setText(add3);
+//                    String add3 = rs.getString("Lesson");
+//                    les_text.setText(add3);
                 }
                 
             }
@@ -753,7 +909,9 @@ public class TeacherD extends javax.swing.JFrame {
         try{
             String sql ="Insert into Teacher_Stable (ID, Name, Lesson) values (?,?,?)";
             pst = conn.prepareStatement(sql);
+            pst.setString(1, sid_text.getText());
             pst.setString(2, sname_txt.getText());
+            pst.setString(3, les_text.getText());
             pst.execute();
             JOptionPane.showMessageDialog(null, "Saved");
         }
@@ -789,8 +947,7 @@ public class TeacherD extends javax.swing.JFrame {
     private void studentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentsMouseClicked
         students.setOpaque(true);
         lessons1.setOpaque(false);
-
-        loadStudentData();
+        loadSData();
     }//GEN-LAST:event_studentsMouseClicked
 
     private void studentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentsActionPerformed
@@ -799,25 +956,26 @@ public class TeacherD extends javax.swing.JFrame {
 
     private void save_botton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_save_botton4ActionPerformed
         try{
-            String sql ="Insert into lesson (Name, Capacity) values (?,?)";
+            String sql ="Insert into Teacher_Ltable (Lesson_ID, Lesson_Name, Capacity) values (?,?,?)";
             pst = conn.prepareStatement(sql);
-            pst.setString(1, lname_txt1.getText());
-            pst.setString(2, cap_text.getText());
+            pst.setString(1, lid_text1.getText());
+            pst.setString(2, lname_txt1.getText());
+            pst.setString(3, tech_text1.getText());
             pst.execute();
             JOptionPane.showMessageDialog(null, "Saved");
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
         }
-        updateLessonTable();
-        loadLessonData();
+        updateTTable();
+        loadTData();
     }//GEN-LAST:event_save_botton4ActionPerformed
 
     private void del_button4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_del_button4ActionPerformed
         int p = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete?", "Delete", JOptionPane.YES_NO_OPTION);
         if(p == 0){
             try{
-                String sql ="delete from lesson where ID = ?";
+                String sql ="delete from Teacher_Ltable where Lesson_ID = ?";
                 pst = conn.prepareStatement(sql);
                 pst.setString(1, lid_text1.getText());
                 pst.execute();
@@ -826,15 +984,15 @@ public class TeacherD extends javax.swing.JFrame {
             catch(Exception e){
                 JOptionPane.showMessageDialog(null, e);
             }
-            updateLessonTable();
-            loadLessonData();
+            updateTTable();
+            loadTData();
         }
     }//GEN-LAST:event_del_button4ActionPerformed
 
     private void clear_text4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clear_text4ActionPerformed
         lid_text1.setText("");
         lname_txt1.setText("");
-        cap_text.setText("");
+        tech_text1.setText("");
     }//GEN-LAST:event_clear_text4ActionPerformed
 
     private void lessons1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lessons1MouseClicked
@@ -852,8 +1010,8 @@ public class TeacherD extends javax.swing.JFrame {
         try{
             String val1 = lid_text1.getText();
             String val2 = lname_txt1.getText();
-            String val3 = cap_text.getText();
-            String sql = "update lesson set ID = '"+val1+"', Name = '"+val2+"' , Capacity = '"+val3+"' where ID ='"+val1+"'";
+            String val3 = tech_text1.getText();
+            String sql = "update Teacher_Ltable set Lesson_ID = '"+val1+"', Lesson_Name = '"+val2+"' , Capacity = '"+val3+"' where Lesson_ID ='"+val1+"'";
             pst = conn.prepareStatement(sql);
             pst.execute();
             JOptionPane.showMessageDialog(null, "Updated");
@@ -862,14 +1020,113 @@ public class TeacherD extends javax.swing.JFrame {
         catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
         }
-        loadLessonData();
-        updateLessonTable();
+        loadTData();
+        updateTTable();
 
     }//GEN-LAST:event_update_textActionPerformed
 
     private void sid_textActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sid_textActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_sid_textActionPerformed
+
+    private void students_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_students_tableMouseClicked
+        
+        try{
+                int row = students_table.getSelectedRow();
+                String click = (students_table.getModel().getValueAt(row,0).toString());
+                String sql = "select * from Teacher_Stable where ID= '"+click+"'";
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                if(rs.next()){
+                    String add1 = rs.getString("ID");
+                    sid_text.setText(add1);
+                    String add2 = rs.getString("Name");
+                    sname_txt.setText(add2);
+                    String add3 = rs.getString("Lesson");
+                    les_text.setText(add3);
+                }
+                pst.close();
+                rs.close();
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+    }//GEN-LAST:event_students_tableMouseClicked
+
+    private void students_tableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_students_tableKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_DOWN || evt.getKeyCode() == KeyEvent.VK_UP){
+
+            try{
+                int row = students_table.getSelectedRow();
+                String click = (students_table.getModel().getValueAt(row,0).toString());
+                String sql = "select * from Teacher_Stable where ID= '"+click+"'";
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                if(rs.next()){
+                    String add1 = rs.getString("ID");
+                    sid_text.setText(add1);
+                    String add2 = rs.getString("Name");
+                    sname_txt.setText(add2);
+                    String add3 = rs.getString("Lesson");
+                    les_text.setText(add3);
+                }
+                pst.close();
+                rs.close();
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }//GEN-LAST:event_students_tableKeyPressed
+
+    private void lesson_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lesson_tableMouseClicked
+        try{
+                int row = lesson_table.getSelectedRow();
+                String click = (lesson_table.getModel().getValueAt(row,0).toString());
+                String sql = "select * from Teacher_Ltable where Lesson_ID= '"+click+"'";
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                if(rs.next()){
+                    String add1 = rs.getString("Lesson_ID");
+                    lid_text1.setText(add1);
+                    String add2 = rs.getString("Lesson_Name");
+                    lname_txt1.setText(add2);
+                    String add3 = rs.getString("Capacity");
+                    tech_text1.setText(add3);
+                }
+                pst.close();
+                rs.close();
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+    }//GEN-LAST:event_lesson_tableMouseClicked
+
+    private void lesson_tableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lesson_tableKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_DOWN || evt.getKeyCode() == KeyEvent.VK_UP){
+
+            try{
+                int row = lesson_table.getSelectedRow();
+                String click = (lesson_table.getModel().getValueAt(row,0).toString());
+                String sql = "select * from Teacher_Ltable where Lesson_ID= '"+click+"'";
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+                if(rs.next()){
+                    String add1 = rs.getString("Lesson_ID");
+                    lid_text1.setText(add1);
+                    String add2 = rs.getString("Lesson_Name");
+                    lname_txt1.setText(add2);
+                    String add3 = rs.getString("Capacity");
+                    tech_text1.setText(add3);
+                }
+                pst.close();
+                rs.close();
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }//GEN-LAST:event_lesson_tableKeyPressed
 
     /**
      * @param args the command line arguments
@@ -926,8 +1183,11 @@ public class TeacherD extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField les_text;
+    private javax.swing.JTable lesson_table;
     private javax.swing.JButton lessons1;
     private javax.swing.JTextField lid_text1;
     private javax.swing.JTextField lname_txt1;
@@ -938,6 +1198,7 @@ public class TeacherD extends javax.swing.JFrame {
     private javax.swing.JTextField sid_text;
     private javax.swing.JTextField sname_txt;
     private javax.swing.JButton students;
+    private javax.swing.JTable students_table;
     private javax.swing.JTable table_people1;
     private javax.swing.JTextField tech_text1;
     private javax.swing.JButton update_text;

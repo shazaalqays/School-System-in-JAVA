@@ -24,10 +24,6 @@ public class Login extends javax.swing.JFrame {
     ResultSet rs = null;
     PreparedStatement pst = null;
     
-    
-    /**
-     * Creates new form Login
-     */
     public Login() {
         initComponents();
         conn = connection.connecrDb();
@@ -153,103 +149,77 @@ public class Login extends javax.swing.JFrame {
 
     private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
         // TODO add your handling code here:
-        
-//        JOptionPane.showMessageDialog(null, "ok");
         try{
-            String sql = "Select * from ADMIN where Username = ? and Password = ? ";
-            pst = conn.prepareStatement(sql);
+            String sql1 = "Select * from usernames where Username = ? and Password = ? ";
+            pst = conn.prepareStatement(sql1);
             pst.setString(1, usernametxt.getText());
-//            JOptionPane.showMessageDialog(null, usernametxt);
             pst.setString(2, passwordtext.getText());
-//            JOptionPane.showMessageDialog(null, passwordtext);
-//            pst = conn.prepareStatement(sql);
             rs = pst.executeQuery();
-            if(rs.next()){ // not working without ! 
-//                JOptionPane.showMessageDialog(null, "username and password is correct");
+            if(rs.next()){
+                try{
+                    String sql = "Select * from ADMIN where Username = ? and Password = ? ";
+                    pst = conn.prepareStatement(sql);
+                    pst.setString(1, usernametxt.getText());
+                    pst.setString(2, passwordtext.getText());
+                    rs = pst.executeQuery();
+                    if(rs.next()){
+                        rs.close();
+                        pst.close();
+                        conn.close();
+                        close();
+                        AdminD sd = new AdminD();
+                        sd.setVisible(true);
+                    }
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(null, e);
+                }
+                try{
+                    String sql = "Select * from Teacher where Username = ? and Password = ? ";
+                    pst = conn.prepareStatement(sql);
+                    pst.setString(1, usernametxt.getText());
+                    pst.setString(2, passwordtext.getText());
+                    rs = pst.executeQuery();
+                    if(rs.next()){ 
+                        rs.close();
+                        pst.close();
+                        conn.close();
+                        close();
+                        TeacherD sd = new TeacherD();
+                        sd.setVisible(true);
+                    }
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(null, e);
+                }
+                try{
+                    String sql = "Select * from student where Username = ? and Password = ? ";
+                    pst = conn.prepareStatement(sql);
+                    pst.setString(1, usernametxt.getText());
+                    pst.setString(2, passwordtext.getText());
+                    rs = pst.executeQuery();
+                    if(rs.next()){
+                        rs.close();
+                        pst.close();
+                        conn.close();
+                        close();
+                        StudentD sd = new StudentD();
+                        sd.setVisible(true);
+                    }
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(null, e);
+                }
                 rs.close();
                 pst.close();
-                close();
-                AdminD sd = new AdminD();
-                sd.setVisible(true);
-                
             }
-//            else{
-//                JOptionPane.showMessageDialog(null, "username and password is not correct");
-//            }
-            
+            else{
+                JOptionPane.showMessageDialog(null, "username and password is not correct");
+            }
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
         }
-        try{
-            String sql = "Select * from Teacher where Username = ? and Password = ? ";
-            pst = conn.prepareStatement(sql);
-            pst.setString(1, usernametxt.getText());
-//            JOptionPane.showMessageDialog(null, usernametxt);
-            pst.setString(2, passwordtext.getText());
-//            JOptionPane.showMessageDialog(null, passwordtext);
-//            pst = conn.prepareStatement(sql);
-            rs = pst.executeQuery();
-            if(rs.next()){ // not working without ! 
-//                JOptionPane.showMessageDialog(null, "username and password is correct");
-                rs.close();
-                pst.close();
-                close();
-                TeacherD sd = new TeacherD();
-                sd.setVisible(true);
-                
-            }
-//            else{
-//                JOptionPane.showMessageDialog(null, "username and password is not correct");
-//            }
-            
-        }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
-        }
-        try{
-            String sql = "Select * from student where Username = ? and Password = ? ";
-            pst = conn.prepareStatement(sql);
-            pst.setString(1, usernametxt.getText());
-//            JOptionPane.showMessageDialog(null, usernametxt);
-            pst.setString(2, passwordtext.getText());
-//            JOptionPane.showMessageDialog(null, passwordtext);
-//            pst = conn.prepareStatement(sql);
-            rs = pst.executeQuery();
-            if(rs.next()){ // not working without ! 
-//                JOptionPane.showMessageDialog(null, "username and password is correct");
-                rs.close();
-                pst.close();
-                close();
-                StudentD sd = new StudentD();
-                sd.setVisible(true);
-                
-            }
-//            else{
-//                JOptionPane.showMessageDialog(null, "username and password is not correct");
-//            }
-            
-        }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
-        }
-    
-//        String user = username.getText();
-//        String pass = password.getText();
-//        if (username.equals(a.getUsername()) && password.equals(a.getPassword())) {
-////            System.out.println("You logged in as an admin");
-//            AdminD ad = new AdminD();
-//            ad.setVisible(true);
-//        } else if (susernames.contains(username)) {
-////            System.out.println("You signed in as a student");
-//            StudentD sd = new StudentD();
-//            sd.setVisible(true);
-//        } else if (tusernames.contains(username)) {
-////            System.out.println("You signed in as a teacher");
-//            TeacherD td = new TeacherD();
-//            td.setVisible(true);
-//        }
-        
     }//GEN-LAST:event_LoginActionPerformed
     
     
@@ -259,22 +229,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_passwordtextActionPerformed
 
     private void LoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LoginMouseClicked
-        // TODO add your handling code here:
-//        String user = usernametxt.getText();
-//        String pass = passwordtext.getText();
-//        if (user.equals(a.getUsername()) && pass.equals(a.getPassword())) {
-////            System.out.println("You logged in as an admin");
-//            AdminD ad = new AdminD();
-//            ad.setVisible(true);
-//        } else if (susernames.contains(user)) {
-////            System.out.println("You signed in as a student");
-//            StudentD sd = new StudentD();
-//            sd.setVisible(true);
-//        } else if (tusernames.contains(user)) {
-////            System.out.println("You signed in as a teacher");
-//            TeacherD td = new TeacherD();
-//            td.setVisible(true);
-//        }
+
     }//GEN-LAST:event_LoginMouseClicked
 
     private void usernametxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernametxtActionPerformed
@@ -283,79 +238,74 @@ public class Login extends javax.swing.JFrame {
 
     private void passwordtextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordtextKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            
-//        JOptionPane.showMessageDialog(null, "ok");
             try{
-                String sql = "Select * from ADMIN where Username = ? and Password = ? ";
-                pst = conn.prepareStatement(sql);
+                String sql1 = "Select * from usernames where Username = ? and Password = ? ";
+                pst = conn.prepareStatement(sql1);
                 pst.setString(1, usernametxt.getText());
-//              JOptionPane.showMessageDialog(null, usernametxt);
                 pst.setString(2, passwordtext.getText());
-//              JOptionPane.showMessageDialog(null, passwordtext);
-//              pst = conn.prepareStatement(sql);
                 rs = pst.executeQuery();
-                if(rs.next()){ // not working without ! 
-//                  JOptionPane.showMessageDialog(null, "username and password is correct");
+                if(rs.next()){ 
+                    try{
+                        String sql = "Select * from ADMIN where Username = ? and Password = ? ";
+                        pst = conn.prepareStatement(sql);
+                        pst.setString(1, usernametxt.getText());
+                        pst.setString(2, passwordtext.getText());
+                        rs = pst.executeQuery();
+                        if(rs.next()){
+                            rs.close();
+                            pst.close();
+                            conn.close();
+                            close();
+                            AdminD sd = new AdminD();
+                            sd.setVisible(true);
+                        }
+                    }
+                    catch(Exception e){
+                        JOptionPane.showMessageDialog(null, e);
+                    }
+                    try{
+                        String sql = "Select * from Teacher where Username = ? and Password = ? ";
+                        pst = conn.prepareStatement(sql);
+                        pst.setString(1, usernametxt.getText());
+                        pst.setString(2, passwordtext.getText());
+                        rs = pst.executeQuery();
+                        if(rs.next()){ 
+                            rs.close();
+                            pst.close();
+                            conn.close();
+                            close();
+                            TeacherD sd = new TeacherD();
+                            sd.setVisible(true);
+                        }
+                    }
+                    catch(Exception e){
+                        JOptionPane.showMessageDialog(null, e);
+                    }
+                    try{
+                        String sql = "Select * from student where Username = ? and Password = ? ";
+                        pst = conn.prepareStatement(sql);
+                        pst.setString(1, usernametxt.getText());
+                        pst.setString(2, passwordtext.getText());
+                        rs = pst.executeQuery();
+                        if(rs.next()){
+                            rs.close();
+                            pst.close();
+                            conn.close();
+                            close();
+                            StudentD sd = new StudentD();
+                            sd.setVisible(true);
+                        }
+                    }
+                    catch(Exception e){
+                        JOptionPane.showMessageDialog(null, e);
+                    }
                     rs.close();
                     pst.close();
-                    close();
-                    AdminD ad = new AdminD();
-                    ad.setVisible(true);
-                
+                    conn.close();
                 }
-//                else{
-//                    JOptionPane.showMessageDialog(null, "username and password is not correct");
-//                }  
-            }
-            catch(Exception e){
-                JOptionPane.showMessageDialog(null, e);
-            }
-            try{
-                String sql = "Select * from student where Username = ? and Password = ? ";
-                pst = conn.prepareStatement(sql);
-                pst.setString(1, usernametxt.getText());
-//              JOptionPane.showMessageDialog(null, usernametxt);
-                pst.setString(2, passwordtext.getText());
-//              JOptionPane.showMessageDialog(null, passwordtext);
-//              pst = conn.prepareStatement(sql);
-                rs = pst.executeQuery();
-                if(rs.next()){ // not working without ! 
-//                  JOptionPane.showMessageDialog(null, "username and password is correct");
-                    rs.close();
-                    pst.close();
-                    close();
-                    StudentD sd = new StudentD();
-                    sd.setVisible(true);
-                
+                else{
+                    JOptionPane.showMessageDialog(null, "username and password is not correct");
                 }
-//                else{
-//                    JOptionPane.showMessageDialog(null, "username and password is not correct");
-//                }  
-            }
-            catch(Exception e){
-                JOptionPane.showMessageDialog(null, e);
-            }
-            try{
-                String sql = "Select * from Teacher where Username = ? and Password = ? ";
-                pst = conn.prepareStatement(sql);
-                pst.setString(1, usernametxt.getText());
-//              JOptionPane.showMessageDialog(null, usernametxt);
-                pst.setString(2, passwordtext.getText());
-//              JOptionPane.showMessageDialog(null, passwordtext);
-//              pst = conn.prepareStatement(sql);
-                rs = pst.executeQuery();
-                if(rs.next()){ // not working without ! 
-//                  JOptionPane.showMessageDialog(null, "username and password is correct");
-                    rs.close();
-                    pst.close();
-                    close();
-                    TeacherD teach = new TeacherD();
-                    teach.setVisible(true);
-                
-                }
-//                else{
-//                    JOptionPane.showMessageDialog(null, "username and password is not correct");
-//                }  
             }
             catch(Exception e){
                 JOptionPane.showMessageDialog(null, e);

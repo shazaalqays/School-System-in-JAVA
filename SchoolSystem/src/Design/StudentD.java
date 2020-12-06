@@ -118,11 +118,11 @@ public class StudentD extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Name", "Capacity"
+                "Lesson ID", "Lesson Name", "Teacher Name"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -299,11 +299,11 @@ public class StudentD extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Name", "Capacity"
+                "Lesson ID", "Lesson Name", "Teacher Name"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -403,7 +403,6 @@ public class StudentD extends javax.swing.JFrame {
 
     private void table_people1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_people1MouseClicked
 
-        
         try{
             int row = table_people1.getSelectedRow();
             String click = (table_people1.getModel().getValueAt(row, 0).toString());
@@ -520,7 +519,6 @@ public class StudentD extends javax.swing.JFrame {
 
     private void lessonsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lessonsMouseClicked
         lessons.setOpaque(true);
-
         loadStudentData();
     }//GEN-LAST:event_lessonsMouseClicked
 
@@ -532,7 +530,9 @@ public class StudentD extends javax.swing.JFrame {
         try{
             String sql ="Insert into Lesson_Stable (Lesson_ID, Lesson_Name, Teacher_Name) values (?,?,?)";
             pst = conn.prepareStatement(sql);
+            pst.setString(1, lid_text.getText());
             pst.setString(2, lname_txt.getText());
+            pst.setString(3, tech_text.getText());
             pst.execute();
             JOptionPane.showMessageDialog(null, "Saved");
         }
